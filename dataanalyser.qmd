@@ -1,30 +1,83 @@
 ---
 title: "Dataanalyse"
 format: pdf
+editor_options: 
+  chunk_output_type: console 
+execute: 
+  echo: false
 ---
 
-```{r} 
-#| echo: false 
+```{r}
 
 library(exscidata)
 data("dxadata"); data("strengthvolume") 
 ```
 
-```{r} 
-#| echo: false 
+```{r}
 
-library(tidyverse)
+library(tidyverse) 
+# gjøre datasettet lettere å jobbe med og filtrere vekk de som ikke fullførte mer enn 85 % av treningen 
 
-dxadata %>%
-  select(participant:include, lean.left_leg, lean.right_leg) %>%
+new_dxadata <- dxadata |> 
+  select(participant:include, 
+         lean.left_leg, 
+         lean.right_leg) |> 
   pivot_longer(names_to = "leg", 
                values_to = "lean.mass", 
-               cols = lean.left_leg:lean.right_leg) %>%
+               cols = lean.left_leg:lean.right_leg) |> 
   mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
-         sets = if_else(multiple == leg, "multiple", "single")) %>%
-  select(participant, time, sex, include, sets, leg, lean.mass) %>%
+         sets = if_else(multiple == leg, "multiple", "single")) |> 
+  select(participant, 
+         time, 
+         sex, 
+         include, 
+         sets, 
+         leg, 
+         lean.mass) |> 
+  filter(include == "incl")
+
+```
+
+```{r}
+# filtrere vekk de som ikke fullførte mer enn 85 % av treningen 
+
+strengthvolume |> 
+  filter(include == "incl", 
+         participant == "FP13") |> 
+  select(participant, time, leg, sets, exercise, load) |> 
+  print(n=30)
+
+```
+
+```{r}
+# finne om det er forskjell mellom 3 sett og 1 sett, men ønsker gjerne å ha within subjects analyser her
+
+strengthvolume |> 
+  filter(include == "incl", 
+         time == "pre" | time == "post", 
+         exercise == "legpress") |> 
+  select(participant, time, sets, leg, exercise, load) |> 
+  pivot_wider(names_from = time, 
+              values_from = load) |> 
+ mutate(endring = (post-pre)*100/post) |> 
+  summarise(m = mean(endring, na.rm = TRUE), 
+            sd = sd(endring, na.rm = TRUE),
+            .by = sets) |>
   print() 
 
+  
+```
+
+```{r}
+strengthvolume |> 
+  filter(include == "incl", 
+         time == "pre" | time == "post", 
+         exercise == "legpress") |> 
+  select(participant, time, sets, leg, exercise, load) |> 
+  pivot_wider(names_from = time, 
+              values_from = load) |> 
+ mutate(endring = (post-pre)*100/post) |> 
+  print()
 ```
 
 

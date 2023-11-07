@@ -1,12 +1,23 @@
 ---
 title: "Analysere eksperimenter med repeterte målinger"
-format: pdf
+format: pdf 
+editor_options: 
+  chunk_output_type: console 
+execute: 
+  echo: false
 ---
 
 ## Innledning 
 
 
 ## Metode 
+
+### Forsøkspersoner og studiedesign
+
+### Tester 
+
+### Behandling av data 
+All data er presentert som gjennomsnitt &plusmn; standardavvik hvis ikke annet er oppgitt. 
 
 
 ## Resultater 
