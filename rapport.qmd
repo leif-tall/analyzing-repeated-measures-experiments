@@ -14,9 +14,9 @@ execute:
 
 ### Forsøkspersoner og studiedesign
 
-### Tester 
+### Muskelstyrke og hypertrofi
 
-### Behandling av data 
+### Dataanalyser og statistikk
 All data er presentert som gjennomsnitt &plusmn; standardavvik hvis ikke annet er oppgitt. 
 
 

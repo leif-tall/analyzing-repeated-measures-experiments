@@ -1,0 +1,194 @@
+---
+title: "Forelesning"
+format: pdf
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| label: "Laste pakker og data" 
+#| warning: false 
+#| message: false 
+#| echo: false 
+#| output: false 
+
+# label: brukes til å navngi code chunk, husk at hvis det er en figur så må det starte med fig- og hvis det er en tabell må det starte med tbl-
+
+# skriv dette i terminal i stedet for å trykke render hver gang fordi det går fortere og den leter bare etter endringer: quarto preview filnavn 
+# det filnavnet må ligge som en fil i prosjektmappen 
+
+library(tidyverse); library(exscidata) 
+library(lme4)
+
+# Importer datasett, extract leg lean mass per leg and remove observations that are include == "excl"
+
+leanmass <- dxadata |> 
+  select(participant:include, 
+         lean.left_leg, 
+         lean.right_leg) |> 
+  pivot_longer(names_to = "leg", 
+               values_to = "lean.mass", 
+               cols = lean.left_leg:lean.right_leg) |> 
+  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
+         sets = if_else(multiple == leg, "multiple", "single")) |> 
+  select(participant, 
+         time, 
+         sex, 
+         include, 
+         sets, 
+         leg, 
+         lean.mass) |> 
+  filter(include == "incl") |> 
+  
+## change levels for time and sets 
+  mutate(time = factor(time, levels = c("pre", "post")), 
+         sets = factor(sets, levels = c("single", "multiple"))) |> 
+  print()
+
+# lean.mass er gram mager masse 
+
+
+
+# create a wide datasett av change scores per volume condition suitable for a t-test 
+leanmass_change_wide <- leanmass |> 
+  pivot_wider(names_from = time, 
+              values_from = lean.mass) |> 
+  mutate(change = post - pre) |> 
+  select(participant, sex, sets, change) |> 
+  pivot_wider(names_from = sets, 
+              values_from = change) |> 
+  
+  mutate(diff = multiple - single) |> 
+  print()
+
+
+
+# do a t-test on change scores per condition 
+
+# Alternatives (paired, equal variation) 
+tt1 <- with(leanmass_change_wide, t.test(multiple, single, var.equal = TRUE, paired = TRUE)) 
+
+# the same model, but with linear model instead of t-test
+m1 <- lm(diff ~ 1, data = leanmass_change_wide) 
+
+summary(m1) 
+
+plot(m1)
+
+
+### Mixed effects model 
+
+m2 <- lmer(lean.mass ~ time * sets + (1|participant), 
+           data = leanmass) 
+summary(m2) 
+
+
+# Create a new data set suitable for ANCOVA
+leanmass_change_wide_time <- leanmass |> 
+  pivot_wider(names_from = time, 
+              values_from = lean.mass) |> 
+  select(participant, sex, sets, pre, post) |> 
+  print() 
+  
+  
+## Mixed-Effects ANCOVA 
+
+## the lm model does not contain information on multiple observations per participant
+m3 <- lm(post ~ pre + sets, data = leanmass_change_wide_time) 
+
+## a more correct model also include random intercepts per participant. Mixed-effects ANCOVA model
+m4 <- lmer(post ~ pre + sets + (1|participant), data = leanmass_change_wide_time) 
+
+# m4 kan kalles en mixed model ANCOVA og er det som blir mest riktig fordi vi tar hensyn til at hver person er med i analysene to ganger 
+
+
+
+### How to extract data from a model: 
+
+# m1 is a linear model of diffence in differences 
+
+m1pval <- round(coef(summary(m1))[1, 4], 2)
+m1est <- round(coef(summary(m1))[1, 1], 2) 
+
+# upper and lower confidence intervals
+m1ciu <- round(confint(m1)[1, 2], 2)
+m1cil <- round(confint(m1)[1, 1], 2)
+
+
+m1results <- paste0(m1est, 
+                    " 95% CI: [", 
+                    m1cil,
+                    ", ", 
+                    m1ciu, 
+                    "], p = ", 
+                    m1pval
+                    )
+  
+
+```
+
+The average difference in lean mass changes between sets were `r m1results`. 
+
+
+
+```{r}
+
+## Time points in strength data set 
+
+strengthvolume |> 
+  distinct(time) 
+
+
+
+## Exploratory plot of strength data 
+
+str <- strengthvolume |> 
+  filter(include == "incl") |> 
+  mutate(time = factor(time, levels = c("pre", "session1", 
+                                        "week2", "week5", 
+                                        "week9", "post"))) |> 
+  print() 
+
+
+str |> 
+  ggplot(aes(time, 
+             load, 
+             group = paste(participant, sets), 
+             color = sets)) + 
+  geom_line() + 
+  facet_wrap(~ exercise, scales = "free") 
+
+
+
+## How many measurements per participant 
+str |> 
+  filter(!is.na(load)) |> 
+  group_by(participant, sets, exercise) |> 
+  summarise(n = n() ) |> 
+  ggplot(aes(n, participant, color = sets)) + 
+  geom_point() + 
+  facet_wrap(~ exercise) + 
+  theme(axis.text.y = element_blank())
+
+
+## use pre and post data 
+# combine pre data prior to data analysis 
+
+str |> 
+  mutate(time = if_else(time %in% c("pre", "session1"), 
+                        "pre", time)) |> 
+  
+  filter(time %in% c("pre", "post")) |> 
+  
+  summarise(load = mean(load, na.rm = TRUE), 
+            .by = c(participant, 
+                    sex, 
+                    time, 
+                    sets, 
+                    exercise, 
+                    leg)) |> 
+  print() 
+
+
+
+```
