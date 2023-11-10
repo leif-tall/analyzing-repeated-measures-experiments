@@ -286,11 +286,11 @@ tbl |>
   fmt_number(columns = m_lean:sd_ext, 
              decimals = 1) |> 
   cols_merge(columns = c(m_lean, sd_lean), 
-             pattern = "{1} &plusmn; {2}") |> 
+             pattern = "{1} \u00B1 {2}") |> 
   cols_merge(columns = c(m_press, sd_press), 
-             pattern = "{1} &plusmn; {2}") |> 
+             pattern = "{1} \u00B1 {2}") |> 
   cols_merge(columns = c(m_ext, sd_ext), 
-             pattern = "{1} &plusmn; {2}") |> 
+             pattern = "{1} \u00B1 {2}") |> 
 
   
   cols_label(sets = "Volum", 
@@ -365,3 +365,5 @@ ggplot(aes(endring_lean.mass, endring_load)) +
 
 
 En feilkilde ved DXA er at nøyaktig hvor på kroppen bildet blir tatt har betydning for resultatet, små ulikheter ved de ulike tidspunktene kan påvirke.
+
+
