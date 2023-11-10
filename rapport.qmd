@@ -10,7 +10,7 @@ execute:
   echo: false 
   warning: false 
   message: false 
-bibliography: references.bib
+bibliography: referanser.bib 
 ---
 
 ## Introduksjon
@@ -346,7 +346,8 @@ results_styrke_masse <- paste0("(R = ",
 
 ```
 
-Figuren viser om det er en sammenheng mellom prosentvis endring i muskelmasse og 1RM benpress. 0.4 % av endringen i 1RM benpress kan forklares med endringen i muskelmasse `r results_styrke_masse`.  
+Figuren viser om det er en sammenheng mellom prosentvis endring i muskelmasse og 1RM benpress. 0.4 % av endringen i 1RM benpress kan forklares med endringen i muskelmasse `r results_styrke_masse`. 
+
 ```{r}
 #| label: fig-korrelasjon 
 #| fig-cap: Figur som viser en lineær regresjonsmodell med endring i muskelmasse som prediktor variabel for endring i 1RM benpress. 
@@ -362,6 +363,7 @@ ggplot(aes(endring_lean.mass, endring_load)) +
 
 
 ## Diskusjon 
+
 
 
 En feilkilde ved DXA er at nøyaktig hvor på kroppen bildet blir tatt har betydning for resultatet, små ulikheter ved de ulike tidspunktene kan påvirke.
