@@ -1,6 +1,9 @@
 ---
-title: "Analysere eksperimenter med repeterte målinger"
+title: "Analysere eksperimenter med repeterte forsøk"
 format: pdf 
+crossref: 
+  fig-title: "Figur" 
+  tbl-title: "Tabell"
 editor_options: 
   chunk_output_type: console 
 execute: 
@@ -12,9 +15,11 @@ bibliography: references.bib
 
 ## Introduksjon
 
-Når man skal legge opp styrketrening kan man justere treningsvariabler som volum, motstand, intensitet, pauselengde, treningsfrekvens med flere. Forskjell i volum innenfor samme økt har fått mye oppmerksomhet og noen studier viser at større volum er gunstig for både muskelstyrke og hypertrofi [@sooneste2013; @radaelli2015]. Likevel er det også noen som finner at lite volum gir økninger i styrke og masse som er tilsvarende det som oppnås ved moderat volum [@cannon2010; @mitchell2012]. Spredningen i hva studiene viser er sannsynligvis på grunn av en kombinasjon av små utvalgsstørrelser og individuelle forskjeller. Studiedesign der man sammenligner ulikt treningsvolum hos samme person kan i teorien hjelpe med å håndtere disse begrensningene. 
+Styrketreningsprogammer består av mange variabler som i teorien kan påvirke adaptasjoner. Blant dem er volum, intensitet, frekvens, pauselengder mellom sett, ernæring, kontraksjonstype og kontraksjonshastighet. Når vi har så mange variabler vi kan manipulere er det uendelig mange måter vi kan kombinere dette for å få ulike treningsprogrammer. Når det gjelder volum er debatten rundt ett sett kontra flere sett noe som har fått oppmerksomhet [@carpinelli1998].
 
-Denne rapporten tar utgangspunkt i studien til @hammarström2020. Metoden er den samme, men bare det som er aktuelt for resultatdelen i denne rapporten er beskrevet. Formålet med analysene var å sammenligne effekten av ett og flere sett på både styrke og hypertrofi med et innendeltaker design (within-subject). 
+Noen studier viser at større volum er gunstig for både muskelstyrke og hypertrofi [@sooneste2013; @radaelli2015]. Likevel er det også noen som finner at lite volum gir økninger i styrke og masse som er tilsvarende det som oppnås ved moderat volum [@cannon2010; @mitchell2012]. Spredningen i hva studiene viser er sannsynligvis på grunn av en kombinasjon av små utvalgsstørrelser og individuelle forskjeller. Studiedesign der man sammenligner ulikt treningsvolum hos samme person kan i teorien hjelpe med å håndtere disse begrensningene. I flere av studiene som ser på ett sett versus tre sett er det også forskjell i intensitet og hvilke øvelser som er brukt [@marx2001; @messier1985].
+
+Formålet med analysene i denne rapporten var å sammenligne effekt av ett og flere sett på både muskelstyrke og hypertrofi. På bakgrunn i de metodiske utfordringene ved studier som sammenligner ett sett med flere sett så hypotiseres følgende: Tre sett vil være mer effektivt for å forbedre maksimal muskelstyrke og økning i muskelmasse sammenlignet med ett sett.
 
 ## Metode
 
@@ -24,31 +29,31 @@ Førtien mannlige og kvinnelige deltakere ble rekruttert etter kriteriet om at d
 
 Intervensjonen innebar 12 uker med fullkropp styrketrening, alle fullførte intervensjonen i løpet av September-November. Benøvelsene ble utført unilateralt for å tillate differensiering av treningsvolum hos samme deltaker. For hver deltaker ble beina randomisert til å utføre øvelser med enten ett eller tre sett, altså gjorde hver deltaker begge protokollene. Muskelstyrke ble samlet inn ved baseline, underveis (uke 3, 5 og 9) og etter intervensjonen, mens målinger av kroppssammensetning var før og etter intervensjonen.
 
-### Treningsprotokoll 
+### Treningsprotokoll
 
-Benøvelser ble gjennomført i følgende rekkefølge: unilateral benpress, bencurl og kneekstensjon, som ett sett på ene beinet og tre sett på andre beinet. Benet som skulle trenes i ett sett ble trent mellom andre og tredje sett på det andre benet som trente tre sett. Etter beinøvelsene trente de også to sett av bilateral benkpress, nedtrekk, og enten skulderpress eller sittende roing (skulderpress og sittende roing varierte med annenhver økt). Pauselengde mellom settene var 1.5-3 minutter. Treningsmotstanden økte gradvis utover intervensjonen, med 10RM første 2 uker, etterfølgt av 8 RM i 3 uker og 7RM i 7 uker. Etter den niende økten, ble motstanden redusert på én av de tre øktene som var hver uke. Reduseringen tilsvarte 90 % i motstand av forrige økt på den gitte øvelsen, men med mål om samme antall repetisjoner. Det var minimum 48 timer før neste økt etter styrkeøktene som var med maksimal innsats. Etter styrkeøktene med redusert motstand var det minst 24 timer til neste økt. For å sikre umiddelbar restitusjon fikk de en standardisert drikke etter hver økt med 0.15 g/kg protein, 1.2 g/kg karbohydrater og 0.5 g/kg fett. 
+Benøvelser ble gjennomført i følgende rekkefølge: unilateral benpress, bencurl og kneekstensjon, som ett sett på ene beinet og tre sett på andre beinet. Benet som skulle trenes i ett sett ble trent mellom andre og tredje sett på det andre benet som trente tre sett. Etter beinøvelsene trente de også to sett av bilateral benkpress, nedtrekk, og enten skulderpress eller sittende roing (skulderpress og sittende roing varierte med annenhver økt). Pauselengde mellom settene var 1.5-3 minutter. Treningsmotstanden økte gradvis utover intervensjonen, med 10RM første 2 uker, etterfølgt av 8 RM i 3 uker og 7RM i 7 uker. Etter den niende økten, ble motstanden redusert på én av de tre øktene som var hver uke. Reduseringen tilsvarte 90 % i motstand av forrige økt på den gitte øvelsen, men med mål om samme antall repetisjoner. Det var minimum 48 timer før neste økt etter styrkeøktene som var med maksimal innsats. Etter styrkeøktene med redusert motstand var det minst 24 timer til neste økt. For å sikre umiddelbar restitusjon fikk de en standardisert drikke etter hver økt med 0.15 g/kg protein, 1.2 g/kg karbohydrater og 0.5 g/kg fett.
 
-### Målinger av muskelstyrke og hypertrofi 
+### Målinger av muskelstyrke og hypertrofi
 
 Maksimal styrke er bestemt som den motstanden man maksimalt klarer en repetisjon av (1RM) i benpress og kneekstensjon. Før selve testen hadde de en spesifikk oppvarming med 10, 6 og 3 repetisjoner på henholdsvis 50, 75 og 85 % av forventet 1RM. Deretter ble 1RM bestemt ved å øke motstanden progressivt helt til deltakeren ikke lenger klarte å løfte gjennom hele bevegelsesbanen. Den høyeste motstanden hvor repetisjonen ble godkjent, er definert som 1RM. De fikk fire til seks forsøk hver.
 
-Ved baseline gjennomførte de testene 2 ganger, med 4 dager mellom. Den høyeste verdien de oppnådde på disse 2 dagene er brukt i analysene. Styrketestene var minst 48 timer etter en gjennomført økt ved etter intervensjonen. Ikke alle deltakerne (n = 18) gjorde styrketestene underveis i intervensjonen (uke 2, 5 og 9). Treningen ble prioritert for resterende deltakere hvis de gikk glipp av testing eller trening pga. sykdom eller logistiske utfordringer. Derfor er ikke testene underveis inkludert i analysene for at det skulle være et større utvalg i analysene. Resultatene før og etter intervensjonen er det som er analysert. 
+Ved baseline gjennomførte de testene 2 ganger, med 4 dager mellom. Den høyeste verdien de oppnådde på disse 2 dagene er brukt i analysene. Styrketestene var minst 48 timer etter en gjennomført økt ved etter intervensjonen. Ikke alle deltakerne (n = 18) gjorde styrketestene underveis i intervensjonen (uke 2, 5 og 9). Treningen ble prioritert for resterende deltakere hvis de gikk glipp av testing eller trening pga. sykdom eller logistiske utfordringer. Derfor er ikke testene underveis inkludert i analysene for at det skulle være et større utvalg i analysene. Resultatene før og etter intervensjonen er det som er analysert.
 
 Kroppssammensetning for bestemmelse av mager muskelmasse er bestemt ved dual-energy X-ray absorptiometry (DXA) før og etter intervensjonen (Lunar Prodigy, GE Healthcare, Oslo, Norway). Før DXA-målinger fikk deltakerne beskjed om å faste 2 timer og avstå fra krevende fysisk aktivitet i 48 timer. Det samme med minimum 48 timer fra siste styrkeøkt til test gjaldt for måling av kroppssammensetning.
 
-### Dataanalyser og statistikk 
+### Dataanalyser og statistikk
 
-All data er presentert som gjennomsnitt ± standardavvik hvis ikke annet er oppgitt.
-Statiske analyser er gjort i R studio [@rstudio]. Det er gjort enkle lineære modeller på differansen mellom gruppene (ett sett & flere sett) på endringen i styrke og muskelmasse fra før til etter intervensjonen. For maksimal styrke er det sett på øvelsene benpress og kneekstensjon. Muskelmasse er målt som endringen i mager muskelmasse i beinet som har trent ett mot beinet som har trent tre sett. 
+All data er presentert som gjennomsnitt ± standardavvik hvis ikke annet er oppgitt. Statiske analyser er gjort i R studio [@rstudio]. Det er gjort enkle lineære modeller på differansen mellom gruppene (ett sett & flere sett) på endringen i styrke og muskelmasse fra før til etter intervensjonen. For maksimal styrke er det sett på øvelsene benpress og kneekstensjon. Muskelmasse er målt som endringen i mager muskelmasse i beinet som har trent ett mot beinet som har trent tre sett.
 
-## Resultater 
+## Resultater
+
 ```{r}
 #| label: "Laste pakker og data, samt statistikk mager masse" 
 #| output: false 
 
 ## laste pakker 
 
-library(tidyverse); library(exscidata); library(lme4)
+library(tidyverse); library(exscidata); library(lme4); library(gt)
 
 # Importere datasettet, hente ut mager muskelmasse i beina per bein og fjerne de deltakerne som ikke fullførte mer enn 85 % av foreskrevet trening 
 
@@ -102,14 +107,14 @@ m1ciu <- round(confint(m1)[1, 2], 2)
 m1cil <- round(confint(m1)[1, 1], 2)
 
 m1results <- paste0(m1est, 
-                    " 95% CI: [", 
+                    " (95 % KI: [", 
                     m1cil,
-                    ", ", 
+                    "-", 
                     m1ciu, 
                     "], p = ", 
-                    m1pval
+                    m1pval, ")"
                     )
-``` 
+```
 
 ```{r}
 #| label: "Statistikk på forskjell i styrke"
@@ -204,28 +209,159 @@ mod_ext_ciu <- round(confint(mod_ext)[1, 2], 1)
 
 
 mod_press_results <- paste0(mod_press_est, 
-                    " 95% CI: [", 
+                    " (95 % KI: [", 
                     mod_press_cil,
-                    ", ", 
+                    "-", 
                     mod_press_ciu, 
                     "], p = ", 
-                    mod_press_pval
+                    mod_press_pval, ")"
                     )
 
 
 mod_ext_results <- paste0(mod_ext_est, 
-                    " 95% CI: [", 
+                    " (95 % KI: [", 
                     mod_ext_cil,
-                    ", ", 
+                    "-", 
                     mod_ext_ciu, 
                     "], p = ", 
-                    mod_ext_pval
-                    )
+                    mod_ext_pval, ")"
+                    ) 
+
+
 ```
 
-DXA-resultatene viste at gjennomsnittlig differanse mellom ett og tre sett var `r m1results`. Også for styrkeøvelsene var forbedringen i 1RM i gjennomsnitt større for det beinet som hadde trent flere sett. I beinpress var forskjellen `r mod_press_results`, mens for kneekstensjon var det `r mod_ext_results` differanse. 
+DXA-resultatene viste at gjennomsnittlig differanse mellom ett og tre sett var `r m1results`. Også for styrkeøvelsene var forbedringen i 1RM i gjennomsnitt større for det beinet som hadde trent flere sett. I beinpress var forskjellen `r mod_press_results`, mens for kneekstensjon var det `r mod_ext_results` differanse.
+
+Tabellen nedenfor viser nivået ved baseline for styrkeøvelsene og mager muskelmasse.
+
+```{r}
+#| output: false
+lean <- leanmass |> 
+  filter(time == "pre") |> 
+  summarise(m_lean = mean(lean.mass), 
+            sd_lean = sd(lean.mass), 
+            miss_val = sum(is.na(lean.mass)), 
+            n = n(),
+            .by = sets) |> 
+  select(sets:sd_lean) |>
+  print()  
 
 
-## Diskusjon
 
-feilkilde dxa: nøyktig hvor på kroppen bildet ble tatt har betydning for resultatet
+press <- strengthvolume |> 
+  filter(include == "incl", 
+         exercise == "legpress", 
+         time == c("pre", "post")) |> 
+  summarise(m_press = mean(load, na.rm = TRUE), 
+            sd_press = sd(load, na.rm = TRUE), 
+            miss_val = sum(is.na(load)), 
+            n = n(),
+            .by = sets) |> 
+  select(sets:sd_press) |> 
+  print() 
+
+
+ext <- strengthvolume |> 
+  filter(include == "incl", 
+         exercise == "legext", 
+         time == c("pre", "post")) |> 
+  summarise(m_ext = mean(load, na.rm = TRUE), 
+            sd_ext = sd(load, na.rm = TRUE), 
+            miss_val = sum(is.na(load)), 
+            n = n(),
+            .by = sets) |> 
+  select(sets:sd_ext) |>
+  print() 
+
+
+tbl <- right_join(lean, press, by = "sets") |> 
+  right_join(ext, by = "sets") 
+
+```
+
+```{r}
+#| tbl-cap: Resultater fra pre-test
+tbl |> 
+   gt() |> 
+  fmt_number(columns = m_lean:sd_ext, 
+             decimals = 1) |> 
+  cols_merge(columns = c(m_lean, sd_lean), 
+             pattern = "{1} &plusmn; {2}") |> 
+  cols_merge(columns = c(m_press, sd_press), 
+             pattern = "{1} &plusmn; {2}") |> 
+  cols_merge(columns = c(m_ext, sd_ext), 
+             pattern = "{1} &plusmn; {2}") |> 
+
+  
+  cols_label(sets = "Volum", 
+             m_lean = "Muskelmasse (g)", 
+             m_press = "Benpress (kg)", 
+             m_ext = "Kneekstensjon (kg)") |> 
+  tab_footnote(footnote = md("*Data er presentert som gjennomsnitt &plusmn; standardavvik.*")) 
+
+```
+
+```{r} 
+#| output: false
+
+## Ønsker å lage en figur der jeg sammenligner økning i benpress med økning i muskelmasse, vil sammenligne prosentvis endring siden det er på ulik skala
+
+styrke_join <- styrke |> 
+  filter(exercise == "legpress") |> 
+  pivot_wider(names_from = time, 
+              values_from = load) |> 
+  
+  mutate(endring_load = (post - pre)*100/post) |> 
+  select(participant, sex, sets, endring_load) |> 
+  print() 
+
+
+leanmass_join <- leanmass |> 
+  filter(time %in% c("pre", "post")) |> 
+  pivot_wider(names_from = time, 
+              values_from = lean.mass) |> 
+  mutate(endring_lean.mass = (post - pre)*100/post, na.rm = TRUE) |> 
+  select(participant, sex, sets, endring_lean.mass) |> 
+  print() 
+
+
+## Slå sammen datasettene 
+joined_dat <- inner_join(styrke_join, leanmass_join, 
+                         by = c("participant", "sex", "sets")) |> 
+  print() 
+
+
+
+styrke_masse_mod <- lm(endring_lean.mass ~ endring_load, data = joined_dat)
+summary(styrke_masse_mod) 
+
+r_squared <- round(summary(styrke_masse_mod)$r.squared, 3) 
+p_val_styrke_masse <- round(coef(summary(styrke_masse_mod))[2, 4], 2) 
+
+results_styrke_masse <- paste0("(R = ", 
+                               r_squared,
+                               " & p = ", 
+                               p_val_styrke_masse, 
+                               ")") 
+
+```
+
+Figuren viser om det er en sammenheng mellom prosentvis endring i muskelmasse og 1RM benpress. 0.4 % av endringen i 1RM benpress kan forklares med endringen i muskelmasse `r results_styrke_masse`.  
+```{r}
+#| label: fig-korrelasjon 
+#| fig-cap: Figur som viser en lineær regresjonsmodell med endring i muskelmasse som prediktor variabel for endring i 1RM benpress. 
+
+joined_dat |> 
+ggplot(aes(endring_lean.mass, endring_load)) + 
+  geom_point() + geom_smooth(method = "lm", se = FALSE) + 
+  labs(x = "% endring muskelmasse", 
+       y = "% endring 1RM benpress", 
+       title = "Sammenheng endring muskelmasse og 1RM benpress") 
+
+```
+
+
+## Diskusjon 
+
+
+En feilkilde ved DXA er at nøyaktig hvor på kroppen bildet blir tatt har betydning for resultatet, små ulikheter ved de ulike tidspunktene kan påvirke.

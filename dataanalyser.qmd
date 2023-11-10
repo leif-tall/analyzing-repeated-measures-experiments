@@ -255,3 +255,69 @@ mod_ext_results <- paste0(mod_ext_est,
 ```
 
 
+```{r} 
+#| label: tbl-Utgangsnivå ett sett vs. tre 
+
+lean <- leanmass |> 
+  filter(time == "pre") |> 
+  summarise(m_lean = mean(lean.mass), 
+            sd_lean = sd(lean.mass), 
+            miss_val = sum(is.na(lean.mass)), 
+            n = n(),
+            .by = sets) |> 
+  select(sets:sd_lean) |>
+  print()  
+
+
+
+press <- strengthvolume |> 
+  filter(include == "incl", 
+         exercise == "legpress", 
+         time == c("pre", "post")) |> 
+  summarise(m_press = mean(load, na.rm = TRUE), 
+            sd_press = sd(load, na.rm = TRUE), 
+            miss_val = sum(is.na(load)), 
+            n = n(),
+            .by = sets) |> 
+  select(sets:sd_press) |> 
+  print() 
+
+
+ext <- strengthvolume |> 
+  filter(include == "incl", 
+         exercise == "legext", 
+         time == c("pre", "post")) |> 
+  summarise(m_ext = mean(load, na.rm = TRUE), 
+            sd_ext = sd(load, na.rm = TRUE), 
+            miss_val = sum(is.na(load)), 
+            n = n(),
+            .by = sets) |> 
+  select(sets:sd_ext) |>
+  print() 
+
+
+tbl <- right_join(lean, press, by = "sets") |> 
+  right_join(ext, by = "sets") 
+
+tbl |> 
+   gt() |> 
+  fmt_number(columns = m_lean:sd_ext, 
+             decimals = 1) |> 
+  cols_merge(columns = c(m_lean, sd_lean), 
+             pattern = "{1} &plusmn; {2}") |> 
+  cols_merge(columns = c(m_press, sd_press), 
+             pattern = "{1} &plusmn; {2}") |> 
+  cols_merge(columns = c(m_ext, sd_ext), 
+             pattern = "{1} &plusmn; {2}") |> 
+
+  
+  cols_label(sets = "Volum", 
+             m_lean = "Muskelmasse (g)", 
+             m_press = "Benpress (kg)", 
+             m_ext = "Kneekstensjon (kg)") |> 
+  tab_footnote(footnote = md("*Data er presentert som gjennomsnitt &plusmn; standardavvik.*"))
+
+
+```
+
+
