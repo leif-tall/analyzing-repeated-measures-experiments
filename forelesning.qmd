@@ -73,8 +73,6 @@ m1 <- lm(diff ~ 1, data = leanmass_change_wide)
 
 summary(m1) 
 
-plot(m1)
-
 
 ### Mixed effects model 
 
@@ -127,7 +125,7 @@ m1results <- paste0(m1est,
 
 ```
 
-The average difference in lean mass changes between sets were `r m1results`. 
+Gjennomsnittlig differanse i mager muskelmasse mellom 1 sett og 3 sett var `r m1results`. 
 
 
 

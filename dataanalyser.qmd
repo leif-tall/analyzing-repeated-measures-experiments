@@ -1,24 +1,26 @@
 ---
-title: "Dataanalyse"
+title: "Dataanalyse - resultater"
 format: pdf
 editor_options: 
   chunk_output_type: console 
 execute: 
-  echo: false
+  echo: false 
+  warning: false 
+  message: false
 ---
 
 ```{r}
+#| label: "Laste pakker og data" 
+#| output: false 
 
-library(exscidata)
-data("dxadata"); data("strengthvolume") 
-```
+## laste pakker 
 
-```{r}
+library(tidyverse); library(exscidata) 
+library(lme4)
 
-library(tidyverse) 
-# gjøre datasettet lettere å jobbe med og filtrere vekk de som ikke fullførte mer enn 85 % av treningen 
+# Importere datasettet, hente ut mager muskelmasse i beina per bein og fjerne de deltakerne som ikke fullførte mer enn 85 % av foreskrevet trening 
 
-new_dxadata <- dxadata |> 
+leanmass <- dxadata |> 
   select(participant:include, 
          lean.left_leg, 
          lean.right_leg) |> 
@@ -34,50 +36,222 @@ new_dxadata <- dxadata |>
          sets, 
          leg, 
          lean.mass) |> 
-  filter(include == "incl")
-
-```
-
-```{r}
-# filtrere vekk de som ikke fullførte mer enn 85 % av treningen 
-
-strengthvolume |> 
-  filter(include == "incl", 
-         participant == "FP13") |> 
-  select(participant, time, leg, sets, exercise, load) |> 
-  print(n=30)
-
-```
-
-```{r}
-# finne om det er forskjell mellom 3 sett og 1 sett, men ønsker gjerne å ha within subjects analyser her
-
-strengthvolume |> 
-  filter(include == "incl", 
-         time == "pre" | time == "post", 
-         exercise == "legpress") |> 
-  select(participant, time, sets, leg, exercise, load) |> 
-  pivot_wider(names_from = time, 
-              values_from = load) |> 
- mutate(endring = (post-pre)*100/post) |> 
-  summarise(m = mean(endring, na.rm = TRUE), 
-            sd = sd(endring, na.rm = TRUE),
-            .by = sets) |>
+  filter(include == "incl") |> 
+  
+## endre nivåer for time og sets  
+  mutate(time = factor(time, levels = c("pre", "post")), 
+         sets = factor(sets, levels = c("single", "multiple"))) |> 
   print() 
 
+
+## Lage et bredt datasett av endringskårer per volum condition som passer for en t-test, og regn ut differanse i en variabel
+leanmass_change_wide <- leanmass |> 
+  pivot_wider(names_from = time, 
+              values_from = lean.mass) |> 
+  mutate(change = post - pre) |> 
+  select(participant, sex, sets, change) |> 
+  pivot_wider(names_from = sets, 
+              values_from = change) |> 
   
+  mutate(diff = multiple - single) |> 
+  print() 
+
+
+# Gjør en t-test på endringskårer per gruppe (1 sett vs. 3 sett) 
+
+# Alternativer (paret, lik variasjon) 
+tt1 <- with(leanmass_change_wide, t.test(multiple, single, var.equal = TRUE, paired = TRUE)) 
+
+# Samme modell, men heller en lineær modell i stedet for t-test 
+m1 <- lm(diff ~ 1, data = leanmass_change_wide) 
+
+summary(m1) 
+
+### Mikset effekter modell 
+
+m2 <- lmer(lean.mass ~ time * sets + (1|participant), 
+           data = leanmass) 
+summary(m2) 
+
+
+# Lag et nytt datasett som passer for ANCOVA
+leanmass_change_wide_time <- leanmass |> 
+  pivot_wider(names_from = time, 
+              values_from = lean.mass) |> 
+  select(participant, sex, sets, pre, post) |> 
+  print() 
+  
+  
+## Mixed-Effects ANCOVA 
+
+## Den lineære modellen inneholder ikke informasjon om at det er flere observasjoner per deltaker 
+m3 <- lm(post ~ pre + sets, data = leanmass_change_wide_time) 
+
+## Nedenfor er det gjort en mer riktig modell som også tar hensyn til tilfeldige intercept per deltaker. Den er mer riktig fordi den tar hensyn til at hver person er med i analysene to ganger. Det er en Mixed-effects ANCOVA modell 
+m4 <- lmer(post ~ pre + sets + (1|participant), data = leanmass_change_wide_time) 
+
+
+### Hvordan man henter ut data fra en modell: 
+# Den enkle lineære modellen (m1) er en lineær modell av forskjell i forskjellene mellom multiple og single. 
+
+m1pval <- round(coef(summary(m1))[1, 4], 2)
+m1est <- round(coef(summary(m1))[1, 1], 2) 
+
+
+## Øvre (m1ciu) og nedre (m1cil) konfidensintervall, round-funksjonen brukes for å bestemme antall desimaler 
+m1ciu <- round(confint(m1)[1, 2], 2)
+m1cil <- round(confint(m1)[1, 1], 2)
+
+
+m1results <- paste0(m1est, 
+                    " 95% CI: [", 
+                    m1cil,
+                    ", ", 
+                    m1ciu, 
+                    "], p = ", 
+                    m1pval
+                    )
 ```
 
-```{r}
+Gjennomsnittlig differanse i mager muskelmasse mellom 1 sett og 3 sett var `r m1results`. 
+
+
+```{r} 
+#| output: false 
+
+## Ønsker å se tidspunktene i styrkedatasettet 
+
 strengthvolume |> 
-  filter(include == "incl", 
-         time == "pre" | time == "post", 
-         exercise == "legpress") |> 
-  select(participant, time, sets, leg, exercise, load) |> 
+  distinct(time) 
+
+
+## Utforskende plot av styrkedata 
+
+str <- strengthvolume |> 
+  filter(include == "incl") |> 
+  mutate(time = factor(time, levels = c("pre", "session1", 
+                                        "week2", "week5", 
+                                        "week9", "post"))) |>
+  print() 
+# har ikke skjedd noe foreløpig annet enn at bare de som fullførte nok trening (85 %) er inkludert, og time er gjort om til faktorvariabel
+
+str |> 
+  ggplot(aes(time, 
+             load, 
+             group = paste(participant, sets), 
+             color = sets)) + 
+  geom_line() + 
+  facet_wrap(~ exercise, scales = "free") 
+
+
+## Få en oversikt over antall målinger av hver test per deltaker 
+str |> 
+  filter(!is.na(load)) |> 
+  group_by(participant, sets, exercise) |> 
+  summarise(n = n() ) |> 
+  ggplot(aes(n, participant, color = sets)) + 
+  geom_point() + 
+  facet_wrap(~ exercise) + 
+  theme(axis.text.y = element_blank())
+
+
+## Må gjøre noen valg her 
+## Bruke pre og post data  
+## Kombinere pre data før dataanalyse 
+
+styrke <- str |> 
+  mutate(time = if_else(time %in% c("pre", "session1"), 
+                        "pre", time)) |> 
+  
+  filter(time %in% c("pre", "post")) |> 
+  
+  summarise(load = mean(load, na.rm = TRUE), 
+            .by = c(participant, 
+                    sex, 
+                    time, 
+                    sets, 
+                    exercise, 
+                    leg)) |> 
+  print() 
+
+
+## Er bare interessert i beinpress og kneekstensjon og vil gjøre datasettet håndterbart for en lineær modell 
+# vil først se på benpress 
+
+styrke_legpress <- styrke |> 
+  filter(exercise == "legpress") |> 
   pivot_wider(names_from = time, 
               values_from = load) |> 
- mutate(endring = (post-pre)*100/post) |> 
+  
+  mutate(endring = post - pre) |> 
+  select(participant, sex, sets, endring) |> 
+  pivot_wider(names_from = sets, 
+              values_from = endring) |> 
+  
+  mutate(diff = multiple - single) |> 
+  print() 
+
+
+## Vil gjøre det samme for kneekstensjon 
+styrke_ext <- styrke |> 
+  filter(exercise == "legext") |> 
+  pivot_wider(names_from = time, 
+              values_from = load) |> 
+  mutate(endring = post - pre) |> 
+  select(participant, sex, sets, endring) |> 
+  pivot_wider(names_from = sets, 
+              values_from = endring) |> 
+  mutate(diff = multiple - single) |> 
   print()
+
+
+## Gjøre enkle lineære modeller:
+# Benpress 
+mod_press <- lm(diff ~ 1, data = styrke_legpress) 
+summary(mod_press)
+# ser at 3 differanser mangler, sannsynligvis fordi det mangler data enten fra bein med multiple eller single, eller begge
+
+# Kneekstensjon 
+mod_ext <- lm(diff ~ 1, data = styrke_ext) 
+summary(mod_ext)
+# her mangler 2 differanser
+
+
+### Ønsker å presentere resultatene 
+mod_press_pval <- round(coef(summary(mod_press))[1, 4], 3) 
+mod_press_est <- round(coef(summary(mod_press))[1, 1], 2) 
+
+mod_ext_pval <- round(coef(summary(mod_ext))[1, 4], 3) 
+mod_ext_est <- round(coef(summary(mod_ext))[1, 1], 2) 
+
+
+## Konfidensintervaller 
+mod_press_cil <- round(confint(mod_press)[1, 1], 1) 
+mod_press_ciu <- round(confint(mod_press)[1, 2], 1) 
+
+mod_ext_cil <- round(confint(mod_ext)[1, 1], 1) 
+mod_ext_ciu <- round(confint(mod_ext)[1, 2], 1) 
+
+
+mod_press_results <- paste0(mod_press_est, 
+                    " 95% CI: [", 
+                    mod_press_cil,
+                    ", ", 
+                    mod_press_ciu, 
+                    "], p = ", 
+                    mod_press_pval
+                    )
+
+
+mod_ext_results <- paste0(mod_ext_est, 
+                    " 95% CI: [", 
+                    mod_ext_cil,
+                    ", ", 
+                    mod_ext_ciu, 
+                    "], p = ", 
+                    mod_ext_pval
+                    )
+
 ```
 
 
