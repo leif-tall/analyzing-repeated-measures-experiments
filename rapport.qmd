@@ -10,7 +10,7 @@ execute:
   echo: false 
   warning: false 
   message: false 
-bibliography: referanser.bib 
+bibliography: referanser/referanser.bib 
 ---
 
 ## Introduksjon
@@ -234,8 +234,10 @@ DXA-resultatene viste at gjennomsnittlig differanse mellom ett og tre sett var `
 
 Tabellen nedenfor viser nivået ved baseline for styrkeøvelsene og mager muskelmasse.
 
-```{r}
-#| output: false
+```{r} 
+#| label: "Lage tabell"
+#| output: false 
+
 lean <- leanmass |> 
   filter(time == "pre") |> 
   summarise(m_lean = mean(lean.mass), 
@@ -279,7 +281,8 @@ tbl <- right_join(lean, press, by = "sets") |>
 
 ```
 
-```{r}
+```{r} 
+#| label: tbl-pre
 #| tbl-cap: Resultater fra pre-test
 tbl |> 
    gt() |> 
@@ -302,6 +305,7 @@ tbl |>
 ```
 
 ```{r} 
+#| label: "Slå sammen datasett for å lage figur"
 #| output: false
 
 ## Ønsker å lage en figur der jeg sammenligner økning i benpress med økning i muskelmasse, vil sammenligne prosentvis endring siden det er på ulik skala
@@ -349,7 +353,7 @@ results_styrke_masse <- paste0("(R = ",
 Figuren viser om det er en sammenheng mellom prosentvis endring i muskelmasse og 1RM benpress. 0.4 % av endringen i 1RM benpress kan forklares med endringen i muskelmasse `r results_styrke_masse`. 
 
 ```{r}
-#| label: fig-korrelasjon 
+#| label: fig-figur1
 #| fig-cap: Figur som viser en lineær regresjonsmodell med endring i muskelmasse som prediktor variabel for endring i 1RM benpress. 
 
 joined_dat |> 
