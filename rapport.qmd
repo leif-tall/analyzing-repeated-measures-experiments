@@ -12,6 +12,7 @@ execute:
   message: false 
 bibliography: referanser/referanser.bib 
 ---
+
 ## Introduksjon
 
 Styrketreningsprogammer består av mange variabler som i teorien kan påvirke adaptasjoner. Blant dem er volum, intensitet, frekvens, pauselengder mellom sett, ernæring, kontraksjonstype og kontraksjonshastighet. Når vi har så mange variabler vi kan manipulere er det uendelig mange måter vi kan kombinere dette for å få ulike treningsprogrammer. Når det gjelder volum er debatten rundt ett sett kontra flere sett noe som har fått oppmerksomhet [@carpinelli1998].
@@ -38,7 +39,7 @@ Maksimal styrke er bestemt som den motstanden man maksimalt klarer en repetisjon
 
 Ved baseline gjennomførte de testene 2 ganger, med 4 dager mellom. Den høyeste verdien de oppnådde på disse 2 dagene er brukt i analysene. Styrketestene var minst 48 timer etter en gjennomført økt ved etter intervensjonen. Ikke alle deltakerne (n = 18) gjorde styrketestene underveis i intervensjonen (uke 2, 5 og 9). Treningen ble prioritert for resterende deltakere hvis de gikk glipp av testing eller trening pga. sykdom eller logistiske utfordringer. Derfor er ikke testene underveis inkludert i analysene for at det skulle være et større utvalg i analysene. Resultatene før og etter intervensjonen er det som er analysert.
 
-Kroppssammensetning for bestemmelse av mager muskelmasse er bestemt ved dual-energy X-ray absorptiometry (DXA) før og etter intervensjonen (Lunar Prodigy, GE Healthcare, Oslo, Norway). Før DXA-målinger fikk deltakerne beskjed om å faste 2 timer og avstå fra krevende fysisk aktivitet i 48 timer. Det var også minimum 48 timer fra siste styrkeøkt til DXA-måling. 
+Kroppssammensetning for bestemmelse av mager muskelmasse er bestemt ved dual-energy X-ray absorptiometry (DXA) før og etter intervensjonen (Lunar Prodigy, GE Healthcare, Oslo, Norway). Før DXA-målinger fikk deltakerne beskjed om å faste 2 timer og avstå fra krevende fysisk aktivitet i 48 timer. Det var også minimum 48 timer fra siste styrkeøkt til DXA-måling.
 
 ### Dataanalyser og statistikk
 
@@ -52,7 +53,7 @@ Statiske analyser er gjort i R studio [@rstudio]. Det er gjort enkle lineære re
 
 ## laste pakker 
 
-library(tidyverse); library(exscidata); library(lme4); library(gt)
+library(tidyverse); library(exscidata); library(lme4); library(gt) 
 
 # Importere datasettet, hente ut mager muskelmasse i beina per bein og fjerne de deltakerne som ikke fullførte mer enn 85 % av foreskrevet trening 
 
@@ -97,13 +98,13 @@ summary(m1)
 ### Hente ut data fra modellen: 
 # Den enkle lineære modellen (m1) er en lineær modell av forskjell i forskjellene mellom multiple og single. 
 
-m1pval <- round(coef(summary(m1))[1, 4], 2)
+m1pval <- round(coef(summary(m1))[1, 4], 2) 
 m1est <- round(coef(summary(m1))[1, 1], 2) 
 
 
 ## Øvre (m1ciu) og nedre (m1cil) konfidensintervall, round-funksjonen brukes for å bestemme antall desimaler 
-m1ciu <- round(confint(m1)[1, 2], 2)
-m1cil <- round(confint(m1)[1, 1], 2)
+m1ciu <- round(confint(m1)[1, 2], 2) 
+m1cil <- round(confint(m1)[1, 1], 2) 
 
 m1results <- paste0(m1est, 
                     " (95 % KI: [", 
@@ -112,7 +113,7 @@ m1results <- paste0(m1est,
                     m1ciu, 
                     "], p = ", 
                     m1pval, ")"
-                    )
+                    ) 
 ```
 
 ```{r}
@@ -176,7 +177,7 @@ styrke_ext <- styrke |>
   pivot_wider(names_from = sets, 
               values_from = endring) |> 
   mutate(diff = multiple - single) |> 
-  print()
+  print() 
 
 
 ## Gjøre enkle lineære modeller:
@@ -215,7 +216,7 @@ mod_press_results <- paste0(mod_press_est,
                     mod_press_ciu, 
                     "], p = ", 
                     mod_press_pval, ")"
-                    )
+                    ) 
 
 
 mod_ext_results <- paste0(mod_ext_est, 
@@ -234,7 +235,7 @@ DXA-resultatene viste at gjennomsnittlig differanse mellom ett og tre sett var `
 
 Tabellen nedenfor viser nivået ved baseline for styrkeøvelsene og mager muskelmasse.
 
-```{r} 
+```{r}
 #| label: "Lage tabell"
 #| output: false 
 
@@ -285,7 +286,7 @@ tbl <- right_join(lean, press, by = "sets") |>
 
 ```
 
-```{r} 
+```{r}
 #| label: tbl-pre
 #| tbl-cap: Resultater fra pre-test
 
@@ -309,7 +310,7 @@ tbl |>
 
 ```
 
-```{r} 
+```{r}
 #| label: "Slå sammen datasett for å lage figur"
 #| output: false
 
@@ -342,7 +343,7 @@ joined_dat <- inner_join(styrke_join, leanmass_join,
 
 ## Gjøre en lineær modell, der jeg sette mage masse som prediktor variabel. Vil ha p-verdi og R 
 
-styrke_masse_mod <- lm(endring_lean.mass ~ endring_load, data = joined_dat)
+styrke_masse_mod <- lm(endring_lean.mass ~ endring_load, data = joined_dat) 
 summary(styrke_masse_mod) 
 
 ## Spare verdiene i objekter
@@ -358,7 +359,7 @@ results_styrke_masse <- paste0("(R = ",
 
 ```
 
-Figuren viser om det er en sammenheng mellom prosentvis endring i muskelmasse og 1RM benpress. 0.5 % av endringen i 1RM benpress kan forklares med endringen i muskelmasse `r results_styrke_masse`. 
+Figuren viser om det er en sammenheng mellom prosentvis endring i muskelmasse og 1RM benpress. 0.5 % av endringen i 1RM benpress kan forklares med endringen i muskelmasse `r results_styrke_masse`.
 
 ```{r}
 #| label: fig-figur1
@@ -373,7 +374,7 @@ ggplot(aes(endring_lean.mass, endring_load)) +
 
 ```
 
-```{r} 
+```{r}
 #| output: false 
 
 prosent_benpress_gruppevis <- styrke |> 
@@ -393,24 +394,90 @@ prosent_benpress_gruppevis <- styrke |>
   print() 
 
 
-results_change_benpress <- paste0(prosent_benpress_)
+single_mean_benpress <- round(prosent_benpress_gruppevis$single_m, 1) 
+single_sd_benpress <- round(prosent_benpress_gruppevis$single_sd, 1) 
+multiple_m_benpress <- round(prosent_benpress_gruppevis$multiple_m, 1) 
+multiple_sd_benpress <- round(prosent_benpress_gruppevis$multiple_sd, 1) 
+
+
+results_change_benpress_single <- paste0(single_mean_benpress, 
+                                         " \u00B1 ", 
+                                         single_sd_benpress)  
+
+results_change_benpress_multiple <- paste0(multiple_m_benpress, 
+                                           " \u00B1 ", 
+                                           multiple_sd_benpress)
+
+## Kneekstensjon 
+prosent_kneekstensjon_gruppevis <- styrke |> 
+  filter(exercise == "legext") |> 
+  pivot_wider(names_from = time, 
+              values_from = load) |> 
+  
+  mutate(endring = (post - pre)*100/post) |> 
+  select(participant, sex, sets, endring) |> 
+  pivot_wider(names_from = sets, 
+              values_from = endring) |> 
+  
+  summarise(single_m = mean(single, na.rm = TRUE), 
+            multiple_m = mean(multiple, na.rm = TRUE), 
+            single_sd = sd(single, na.rm = TRUE), 
+            multiple_sd = sd(multiple, na.rm = TRUE)) |> 
+  print() 
+
+
+single_mean_kneekstensjon <- round(prosent_kneekstensjon_gruppevis$single_m, 1) 
+single_sd_kneekstensjon <- round(prosent_kneekstensjon_gruppevis$single_sd, 1) 
+multiple_m_kneekstensjon <- round(prosent_kneekstensjon_gruppevis$multiple_m, 1) 
+multiple_sd_kneekstensjon <- round(prosent_kneekstensjon_gruppevis$multiple_sd, 1)  
+
+
+results_change_kneekstensjon_single <- paste0(single_mean_kneekstensjon, 
+                                         " \u00B1 ", 
+                                         single_sd_kneekstensjon)  
+
+results_change_kneekstensjon_multiple <- paste0(multiple_m_kneekstensjon, 
+                                                " \u00B1 ", 
+                                                multiple_sd_kneekstensjon) 
+                                         
  
+## leanmass
 
-
-leanmass |> 
+prosent_leanmass_gruppevis <- leanmass |> 
   pivot_wider(names_from = time, 
               values_from = lean.mass) |> 
-  mutate(change = post - pre)
+  mutate(change = (post - pre)*100/post) |> 
+  select(participant, sex, sets, change) |> 
+  pivot_wider(names_from = sets, 
+              values_from = change) |> 
+  summarise(single_m = mean(single, na.rm = TRUE), 
+            multiple_m = mean(multiple, na.rm = TRUE), 
+            single_sd = sd(single, na.rm = TRUE), 
+            multiple_sd = sd(multiple, na.rm = TRUE)) |> 
+  print() 
+
+
+single_mean_leanmass <- round(prosent_leanmass_gruppevis$single_m, 1) 
+single_sd_leanmass <- round(prosent_leanmass_gruppevis$single_sd, 1) 
+multiple_mean_leanmass <- round(prosent_leanmass_gruppevis$multiple_m, 1) 
+multiple_sd_leanmass <- round(prosent_leanmass_gruppevis$multiple_sd, 1) 
+
+
+results_change_leanmass_single <- paste0(single_mean_leanmass, 
+                                         " \u00B1 ", 
+                                         single_sd_leanmass) 
+
+results_change_leanmass_multiple <- paste0(multiple_mean_leanmass, 
+                                           " \u00B1 ", 
+                                           multiple_sd_leanmass) 
 ```
 
+## Diskusjon
 
-## Diskusjon 
+Det beinet som hadde trent tre sett økte hadde mer hypertrofi og økte styrken i de to øvelsene sammenlignet med beinet som hadde trent ett sett. Prosentvis endring i mager muskelmasse var størst ved 3 sett, hhv. `r results_change_leanmass_mulitple` % mot ett sett som økte `r results_change_leanmass_single` %. Dette er overens med en metaanalyse som fant effektstørrelse i favør av 3 sett versus 1 sett [@krieger2009]. Likevel skal vi være forsiktig med å trekke konklusjoner basert på metaanalyser, men utfordringen er at studier sammenligner grupper med ulike deltakere og observerer da ingen forskjell mellom volum [@starkey1996]. Da får man ikke tatt høyde for den biologiske variasjonen mellom individer, og gjør det vanskeligere å sammenligne ulikt volum. I analysene fra denne rapporten kunne ikke økningen i muskelmasse forklare økning i 1RM benpress når vi inkluderte begge bein i korrelasjonsanalysen.
 
+Selv om det ikke var noen sammenheng, økte også styrken i benpress mer ved 3 sett versus 1 sett (prosentvis endring på hhv. `r results_change_benpress_multiple` & `r results_change_benpress_single`). Det samme gjaldt for kneekstensjon; 3 sett økte `r results_change_kneekstensjon_multiple` %, mens 1 sett økte med `r results_change_kneekstensjon_single`. 
 
+Konklusjonen fra disse analysene der hver deltaker har trent med begge volum på ulikt bein. Det er at responsen på styrke og hypertrofi følger et dose-volum forhold, der 3 sett er mer gunstig enn 1 sett for utrente voksne. 
 
-En feilkilde ved DXA er at nøyaktig hvor på kroppen bildet blir tatt har betydning for resultatet, små ulikheter ved de ulike tidspunktene kan påvirke.
-
-
-## Referanser: 
-
-
+## Referanser:
